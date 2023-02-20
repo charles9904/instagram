@@ -1,3 +1,3 @@
 # instagram
 
-A new Flutter project.
+Instagram clone made with flutter

@@ -1,19 +1,25 @@
 name: instagram
-description: A new Flutter project.
-publish_to: 'none'
+description: Unofficial instagram clone made with flutter
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=2.19.2 <3.0.0'
+  sdk: ">=2.19.2 <3.0.0"
 
 dependencies:
+  flukit:
+    path: ../flukit
+  flukit_icons:
+    git:
+      url: https://github.com/charles9904/flukit_icons.git
   flutter:
     sdk: flutter
+  get: ^4.6.5
 
 dev_dependencies:
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
