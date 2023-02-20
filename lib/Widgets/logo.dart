@@ -5,9 +5,10 @@ import 'package:get/get_utils/get_utils.dart';
 import '../configs/settings.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({this.size, super.key});
+  const Logo({this.size, this.color, super.key});
 
   final double? size;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class Logo extends StatelessWidget {
         fontSize: size ?? Flu.getTextThemeOf(context).titleLarge?.fontSize,
         fontFamily: 'instagramSans',
         fontWeight: FontWeight.w700,
-        color: Flu.getColorSchemeOf(context).primary,
+        color: color ?? Flu.getColorSchemeOf(context).primary,
       ),
     );
   }

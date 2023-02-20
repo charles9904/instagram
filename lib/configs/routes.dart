@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../bindings/auth_screen_binding.dart';
 import '../screens/auth.dart';
 import '../screens/splash.dart';
 
@@ -56,6 +57,8 @@ extension on Routes {
 
   Bindings? get binding {
     switch (this) {
+      case Routes.auth:
+        return AuthScreenBinding();
       default:
         return null;
     }
