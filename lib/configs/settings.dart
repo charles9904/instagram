@@ -21,7 +21,7 @@ class AppSettings {
 
   /// Default pages horizontal padding value
   EdgeInsets get pagePadding =>
-      EdgeInsets.symmetric(horizontal: Flu.screenWidth * .065);
+      EdgeInsets.symmetric(horizontal: Flu.screenWidth * .055);
 
   /// Default button size
   double get buttonSize => 70;
@@ -33,4 +33,7 @@ class AppSettings {
 
   /// Bottom navigation bar dimensions
   double get bottomNavigationBarHeight => Flu.screenHeight * .085;
+
+  /// Posts
+  double get postSpacing => 25.0;
 }

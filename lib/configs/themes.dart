@@ -24,6 +24,8 @@ class ThemeManager {
         colorScheme: ColorScheme.fromSeed(
           seedColor: settings.defaultTheme.colorSchemeSeed,
           brightness: Brightness.light,
+          background: const Color.fromARGB(255, 242, 246, 250),
+          surface: const Color(0xFFFFFFFF),
         ),
       ),
     );
@@ -59,4 +61,11 @@ extension E on Themes {
         return const Color(0xFF1651E7);
     }
   }
+}
+
+extension T on ColorScheme {
+  Color get badgeColor => Colors.redAccent.shade400;
+
+  List<Color> get gradientColors =>
+      const [Color(0xFFf09433), Color(0xFFbc1888)];
 }

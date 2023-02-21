@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../bindings/auth_screen_binding.dart';
 import '../screens/auth.dart';
+import '../screens/main/layout.dart';
 import '../screens/splash.dart';
 
 /// [AppRouter] instance that will be used in
@@ -42,7 +43,7 @@ class AppRouter {
 }
 
 /// App routes
-enum Routes { splash, auth }
+enum Routes { splash, auth, main }
 
 extension on Routes {
   /// return the widget attached to a route.
@@ -52,6 +53,8 @@ extension on Routes {
         return const SplashScreen();
       case Routes.auth:
         return const AuthScreen();
+      case Routes.main:
+        return const MainScreen();
     }
   }
 

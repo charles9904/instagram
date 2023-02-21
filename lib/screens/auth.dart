@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../Widgets/logo.dart';
+import '../configs/routes.dart';
 import '../configs/settings.dart';
 import 'dart:math' as math;
 
@@ -31,7 +32,9 @@ class _AuthScreenState extends State<AuthScreen>
   final animationDuration = const Duration(milliseconds: 400);
   final animationCurve = Curves.decelerate;
 
-  void onMainButtonPressed() {}
+  void onMainButtonPressed() {
+    router.push(Routes.main);
+  }
 
   void onInputValueChanged(String value) {
     controller.canSubmit = value.isNotEmpty;
