@@ -36,4 +36,10 @@ class AppSettings {
 
   /// Posts
   double get postSpacing => 25.0;
+
+  /// Story screen
+  double get storyProgressBarHeight => 3.0;
+  int get storyDisplayDuration => 5000;
+
+  /// In milliseconds
 }

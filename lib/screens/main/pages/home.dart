@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:instagram/configs/themes.dart';
 
 import '../../../Widgets/logo.dart';
+import '../../../configs/routes.dart';
 import '../../../configs/settings.dart';
 import '../../../models/post.model.dart';
 import '../../../models/user.model.dart';
@@ -50,7 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   10.ph,
-                  _Stories(UserModel.getAll()..shuffle()),
+                  _Stories((UserModel.getAll()
+                    ..shuffle()
+                    ..removeWhere((user) => user.stories.isEmpty))),
                   _Posts(PostModel.getAll()),
                   50.ph,
                 ],
@@ -103,7 +106,6 @@ class _Stories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Flu.getColorSchemeOf(context);
     final double avatarSize = Flu.screenWidth * .15,
         avatarRadius = Flu.screenWidth * .07;
     const double avatarSpacing = 15;
@@ -116,9 +118,10 @@ class _Stories extends StatelessWidget {
           padding: settings.pagePadding,
           children: [
             _StoryItem(
+              onPressed: () {},
               size: avatarSize,
               cornerRadius: avatarRadius,
-              margin: EdgeInsets.only(right: avatarSpacing),
+              margin: const EdgeInsets.only(right: avatarSpacing),
             ),
             ListView.builder(
               shrinkWrap: true,
@@ -126,6 +129,8 @@ class _Stories extends StatelessWidget {
               itemCount: users.length,
               itemBuilder: (context, index) {
                 return _StoryItem(
+                  onPressed: () =>
+                      router.push(Routes.story, arguments: users[index]),
                   size: avatarSize,
                   user: users[index],
                   cornerRadius: avatarRadius,
@@ -145,8 +150,8 @@ class _StoryItem extends StatelessWidget {
     required this.size,
     required this.cornerRadius,
     this.margin = EdgeInsets.zero,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final UserModel? user;
   final EdgeInsets margin;

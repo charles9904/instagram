@@ -6,6 +6,7 @@ import 'package:flukit_icons/flukit_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:instagram/configs/themes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../Widgets/logo.dart';
@@ -84,7 +85,6 @@ class _AuthScreenState extends State<AuthScreen>
               children: [
                 PageView.builder(
                   controller: pageController,
-                  physics: const NeverScrollableScrollPhysics(),
                   onPageChanged: (value) {
                     controller.currentPage = value;
                     animationController
@@ -169,34 +169,35 @@ class _AuthScreenState extends State<AuthScreen>
             ),
           ),
           Container(
-            height: 2,
+            height: 1,
             alignment: Alignment.centerLeft,
-            color: colorScheme.primaryContainer,
+            color: colorScheme.surface,
             child: AnimatedBuilder(
               animation: progressAnimation,
               builder: (context, child) {
                 return Container(
                   height: double.infinity,
                   width: progressAnimation.value,
-                  color: colorScheme.primary,
+                  color: colorScheme.badgeColor,
                 );
               },
             ),
           ),
           Padding(
             padding: settings.pagePadding.copyWith(
-                top: Flu.screenHeight * .035, bottom: Flu.screenHeight * .035),
+                top: Flu.screenHeight * .015, bottom: Flu.screenHeight * .035),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Dolorem laboriosam quasi sint et omnis tempora odit. Deserunt aut sed.',
-                  style: TextStyle(),
+                  style: Flu.getTextThemeOf(context).bodySmall?.copyWith(
+                      color: colorScheme.onBackground.withOpacity(.5)),
                 ),
                 Container(
                   height: settings.buttonSize,
                   margin: EdgeInsets.only(
-                      top: Flu.screenHeight * .025,
+                      top: Flu.screenHeight * .045,
                       bottom: !Flu.isKeyboardHidden(context) ? 10 : 0),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(

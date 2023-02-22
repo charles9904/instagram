@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../bindings/auth_screen_binding.dart';
+import '../bindings/story_screen_binding.dart';
 import '../screens/auth.dart';
 import '../screens/main/layout.dart';
 import '../screens/splash.dart';
+import '../screens/story.dart';
 
 /// [AppRouter] instance that will be used in
 /// the whole app.
@@ -43,7 +45,7 @@ class AppRouter {
 }
 
 /// App routes
-enum Routes { splash, auth, main }
+enum Routes { splash, auth, main, story }
 
 extension on Routes {
   /// return the widget attached to a route.
@@ -55,6 +57,8 @@ extension on Routes {
         return const AuthScreen();
       case Routes.main:
         return const MainScreen();
+      case Routes.story:
+        return const StoryScreen();
     }
   }
 
@@ -62,6 +66,8 @@ extension on Routes {
     switch (this) {
       case Routes.auth:
         return AuthScreenBinding();
+      case Routes.story:
+        return StoryScreenBinding();
       default:
         return null;
     }
@@ -71,6 +77,8 @@ extension on Routes {
   /// when navigating to a page
   Transition? get transition {
     switch (this) {
+      case Routes.story:
+        return Transition.downToUp;
       default:
         return Transition.rightToLeft;
     }
