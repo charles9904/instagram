@@ -39,7 +39,7 @@ class AppSettings {
 
   /// Story screen
   double get storyProgressBarHeight => 3.0;
-  int get storyDisplayDuration => 5000;
+  int get storyDisplayDuration => 10000;
 
   /// In milliseconds
 }

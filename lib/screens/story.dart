@@ -177,23 +177,18 @@ class _StoryScreenState extends State<StoryScreen>
                     final story = user.stories[index];
 
                     if (story.media != null) {
-                      Widget media;
-
                       if (story.mediaType == PostType.photo) {
-                        media = FluImage(
+                        return FluImage(
                           story.media!,
                           expand: true,
-                          overlayOpacity: .5,
+                          overlayOpacity: .65,
+                          gradientOverlay: true,
+                          gradientOverlayBegin: Alignment.bottomRight,
+                          gradientOverlayEnd: Alignment.topLeft,
                         );
                       } else {
-                        media = Container();
+                        return Container();
                       }
-
-                      return Stack(
-                        children: [
-                          media,
-                        ],
-                      );
                     } else {
                       return Container(
                         alignment: Alignment.center,
@@ -216,7 +211,7 @@ class _StoryScreenState extends State<StoryScreen>
                   },
                 ),
                 Padding(
-                  padding: settings.pagePadding.copyWith(top: 15),
+                  padding: settings.pagePadding.copyWith(top: 10),
                   child: Column(
                     children: [
                       Obx(() => Row(
@@ -278,7 +273,8 @@ class _StoryScreenState extends State<StoryScreen>
                             cornerRadius: appBarButtonCornerRadius,
                             child: FluButton.icon(
                               onPressed: () => Get.back(),
-                              FluIcons.closeCircle,
+                              FluIcons.multiplyUnicon,
+                              iconSize: 16,
                               backgroundColor: Colors.white.withOpacity(.25),
                               foregroundColor: Colors.white,
                               size: appBarButtonSize,
@@ -286,7 +282,10 @@ class _StoryScreenState extends State<StoryScreen>
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      const Spacer(),
+                      const _InputArea(),
+                      (Flu.screenHeight * .025).ph
                     ],
                   ),
                 ),
@@ -295,6 +294,80 @@ class _StoryScreenState extends State<StoryScreen>
           ),
         ),
       ),
+    );
+  }
+}
+
+class _InputArea extends StatelessWidget {
+  const _InputArea({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Color itemBackgroundColor = Colors.white.withOpacity(.25),
+        itemForeground = Colors.white;
+    final double itemSize = settings.buttonSize - 10,
+        itemCornerRadius = settings.buttonMdCornerRadius + 5;
+
+    return Row(
+      children: [
+        Expanded(
+          child: FluGlass(
+            intensity: 8.0,
+            cornerRadius: itemCornerRadius,
+            child: Container(
+              height: itemSize,
+              decoration: BoxDecoration(color: itemBackgroundColor),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: TextField(
+                    expands: true,
+                    maxLines: null,
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(color: itemForeground),
+                    textAlignVertical: TextAlignVertical.center,
+                    cursorColor: Colors.white,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Send message',
+                        hintStyle: Flu.getTextThemeOf(context)
+                            .bodySmall
+                            ?.copyWith(color: itemForeground.withOpacity(.5)),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 12)),
+                  )),
+                  FluLine(
+                    height: 20,
+                    width: 1,
+                    color: itemForeground.withOpacity(.5),
+                  ),
+                  FluButton.text(
+                    '😍',
+                    onPressed: () {},
+                    textStyle: const TextStyle(fontSize: 22),
+                    height: itemSize,
+                    width: itemSize,
+                    backgroundColor: Colors.transparent,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        FluGlass(
+          intensity: 8.0,
+          cornerRadius: itemCornerRadius,
+          margin: const EdgeInsets.only(left: 10),
+          child: FluButton.icon(
+            FluIcons.send,
+            onPressed: () {},
+            size: itemSize,
+            cornerRadius: itemCornerRadius,
+            backgroundColor: itemBackgroundColor,
+            foregroundColor: itemForeground,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -46,7 +46,7 @@ class ThemeManager {
   /// Build a theme with common styles
   ThemeData _buildTheme(ThemeData themeData) {
     return themeData.copyWith(
-        textTheme: GoogleFonts.poppinsTextTheme(themeData.textTheme));
+        textTheme: GoogleFonts.arvoTextTheme(themeData.textTheme));
   }
 }
 

@@ -99,7 +99,9 @@ class _AuthScreenState extends State<AuthScreen>
                       page,
                       expand: true,
                       gradientOverlay: true,
-                      overlayOpacity: .85,
+                      gradientOverlayBegin: Alignment.topRight,
+                      gradientOverlayEnd: Alignment.bottomLeft,
+                      overlayOpacity: .75,
                     );
                   },
                 ),
