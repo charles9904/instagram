@@ -202,6 +202,8 @@ class _StoryScreenState extends State<StoryScreen>
                         child: Text(
                           story.caption!,
                           textAlign: TextAlign.center,
+                          maxLines: 8,
+                          overflow: TextOverflow.ellipsis,
                           style: Flu.getTextThemeOf(context)
                               .headlineLarge
                               ?.copyWith(color: Colors.white),

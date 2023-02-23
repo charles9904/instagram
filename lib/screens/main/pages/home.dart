@@ -187,22 +187,11 @@ class _StoryItem extends StatelessWidget {
                 : [colorScheme.outlineVariant],
             margin: const EdgeInsets.only(bottom: 5),
           ),
-          Row(
-            children: [
-              Text(
-                user?.username.capitalizeFirst ?? 'My Story',
-                style: Flu.getTextThemeOf(context).bodySmall?.copyWith(
-                    color: colorScheme.onBackground.withOpacity(.65)),
-              ),
-              if (user?.isVerified ?? false)
-                FluIcon(
-                  FluIcons.verify,
-                  size: 14,
-                  style: FluIconStyles.bulk,
-                  color: colorScheme.primary,
-                  margin: const EdgeInsets.only(left: 3),
-                )
-            ],
+          Text(
+            user?.username.capitalizeFirst ?? 'My Story',
+            style: Flu.getTextThemeOf(context)
+                .bodySmall
+                ?.copyWith(color: colorScheme.onBackground.withOpacity(.65)),
           ),
         ],
       ),
@@ -241,183 +230,82 @@ class _Post extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Flu.getColorSchemeOf(context);
-    final TextStyle? descTextStyle = Flu.getTextThemeOf(context)
-        .bodySmall
-        ?.copyWith(color: colorScheme.onSurface.withOpacity(.5));
-    final double cornerRadius = 25;
-    Widget media;
+    const double cornerRadius = 25, padding = 5;
 
-    if (post.type == PostType.photo) {
-      media = FluImage(
-        post.content,
-        overlayOpacity: .15,
-        width: double.infinity,
-      );
-    } else {
-      media = Container();
-    }
+    Widget media = Container(
+      clipBehavior: Clip.antiAlias,
+      constraints: BoxConstraints(maxHeight: Flu.screenHeight * .5),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(cornerRadius)),
+      child: post.type == PostType.photo
+          ? FluImage(
+              post.content,
+              overlayOpacity: .15,
+              width: double.infinity,
+            )
+          : Container(),
+    );
 
     return Container(
       margin: margin,
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(padding),
       decoration: BoxDecoration(
           color: colorScheme.background,
-          borderRadius: BorderRadius.circular(cornerRadius + 5),
+          borderRadius: BorderRadius.circular(cornerRadius + padding),
           border: Border.all(
-              color: colorScheme.outlineVariant.withOpacity(.25), width: 1)),
+              color: colorScheme.outlineVariant.withOpacity(.3), width: 1)),
       child: Column(
         children: [
-          Row(
-            children: [
-              const FluAvatar(
-                size: 45,
-                margin: EdgeInsets.only(right: 6),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            post.user.username,
-                            style: Flu.getTextThemeOf(context)
-                                .titleSmall
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        if (post.user.isVerified)
-                          FluIcon(
-                            FluIcons.verify,
-                            size: 16,
-                            style: FluIconStyles.bulk,
-                            color: colorScheme.primary,
-                            margin: const EdgeInsets.only(left: 3),
-                          )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          post.location,
-                          style: descTextStyle,
-                        ),
-                        FluLine(
-                          height: 3,
-                          width: 3,
-                          radius: 99,
-                          color: colorScheme.primary,
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                        ),
-                        Text(
-                          Flu.timeago(post.postedAt),
-                          style: descTextStyle,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              _buildActionIcon(
-                context,
-                colorScheme,
-                FluIcons.more2,
-                onPressed: () {},
-              ),
-            ],
-          ),
+          media,
           8.ph,
-          Container(
-            clipBehavior: Clip.antiAlias,
-            constraints: BoxConstraints(maxHeight: Flu.screenHeight * .45),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(cornerRadius)),
-            child: media,
-          ),
-          8.ph,
-          if (post.caption != null) ...[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              decoration: BoxDecoration(
-                  color: colorScheme.surfaceVariant,
-                  borderRadius: BorderRadius.circular(30)),
-              child: Text(
-                post.caption!,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
+          Row(children: [
+            _actionButton(
+              context,
+              text: Flu.numberToCompactFormat(post.likes.toDouble()),
+              icon: FluIcons.heart,
+              backgroundColor: colorScheme.badgeColor,
+              foregroundColor: Colors.white.withOpacity(.85),
             ),
-            8.ph,
-          ],
-          Row(
-            children: [
-              _buildActionIcon(
-                context,
-                colorScheme,
-                FluIcons.heart,
-                text: Flu.numberToCompactFormat(post.likes.toDouble()),
-                onPressed: () {},
-              ),
-              5.pw,
-              _buildActionIcon(
-                context,
-                colorScheme,
-                FluIcons.messages2,
-                text: Flu.numberToCompactFormat(post.comments.toDouble()),
-                onPressed: () {},
-              ),
-              5.pw,
-              _buildActionIcon(
-                context,
-                colorScheme,
-                FluIcons.send,
-                onPressed: () {},
-              ),
-              const Spacer(),
-              _buildActionIcon(
-                context,
-                colorScheme,
-                FluIcons.bookmark,
-                onPressed: () {},
-              ),
-            ],
-          ),
+            2.pw,
+            _actionButton(
+              context,
+              text: Flu.numberToCompactFormat(post.comments.toDouble()),
+              icon: FluIcons.messages2,
+              backgroundColor: Colors.transparent,
+              foregroundColor: colorScheme.onBackground.withOpacity(.5),
+            ),
+          ]),
+          2.ph,
         ],
       ),
     );
   }
 
-  Widget _buildActionIcon(
-      BuildContext context, ColorScheme colorScheme, FluIcons icon,
-      {String? text, VoidCallback? onPressed}) {
-    final double size = 45;
-    final Color backgroundColor = colorScheme.surfaceVariant.withOpacity(.5),
-        foregroundColor = colorScheme.onSurfaceVariant.withOpacity(.75);
+  Widget _actionButton(
+    BuildContext context, {
+    required String text,
+    required FluIcons icon,
+    required Color backgroundColor,
+    required Color foregroundColor,
+  }) {
+    const double actionBtnSize = 45, actionBtnRadius = 24;
+    final TextStyle? descTextStyle =
+        Flu.getTextThemeOf(context).bodySmall?.copyWith(color: foregroundColor);
 
-    if (text != null) {
-      return FluButton.text(
-        text,
-        textStyle: Flu.getTextThemeOf(context)
-            .labelSmall
-            ?.copyWith(fontWeight: FontWeight.w600, color: foregroundColor),
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        prefixIcon: FluIcons.heart,
-        iconStrokeWidth: 1.8,
-        gap: 5,
-        height: size,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-      );
-    } else {
-      return FluButton.icon(
-        icon,
-        onPressed: onPressed,
-        size: size,
-        iconStrokeWidth: 1.8,
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-      );
-    }
+    return FluButton.text(
+      text,
+      prefixIcon: icon,
+      iconSize: 18,
+      iconStrokeWidth: 2,
+      height: actionBtnSize,
+      cornerRadius: actionBtnRadius,
+      gap: 3,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      textStyle: descTextStyle?.copyWith(
+        fontWeight: FontWeight.w600,
+      ),
+    );
   }
 }
